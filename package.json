@@ -1,0 +1,91 @@
+{
+  "name": "photo-shorting",
+  "version": "0.0.0",
+  "main": "dist/main/build.js",
+  "author": {
+    "name": "Natu Kan",
+    "email": "waterbeside@163.com"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/waterbeside/photo-shorting"
+  },
+  "scripts": {
+    "dev": "npm run dev:all",
+    "dev:all": "concurrently -n=vite,elec -c=green,blue \"npm run dev:vite\" \"npm run dev:elec\"",
+    "dev:vite": "vite",
+    "dev:elec": "node -r ts-node/register script/build --env=development --watch",
+    "typecheck": "vuedx-typecheck",
+    "build:vite": "vite build",
+    "build:elec": "node  -r ts-node/register script/build --env=production",
+    "build": "npm run build:vite && npm run build:elec && electron-builder",
+    "serve": "vite preview"
+  },
+  "build": {
+    "appId": "waterbeside@163.com",
+    "electronDownload": {
+      "mirror": "https://npm.taobao.org/mirrors/electron/"
+    },
+    "files": [
+      "!node_modules",
+      "dist/main/**",
+      "dist/render/**"
+    ],
+    "mac": {
+      "artifactName": "${productName}_setup_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_setup_${version}.${ext}"
+    }
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^6.0.1",
+    "ant-design-vue": "^2.0.0",
+    "electron-is-dev": "^1.2.0",
+    "electron-store": "^7.0.2",
+    "vue": "^3.0.5"
+  },
+  "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.2",
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "@types/minimist": "^1.2.1",
+    "@typescript-eslint/eslint-plugin": "^4.15.0",
+    "@typescript-eslint/parser": "^4.15.0",
+    "@vitejs/plugin-vue": "^1.1.4",
+    "@vue/compiler-sfc": "^3.0.5",
+    "@vuedx/typecheck": "^0.6.0",
+    "@vuedx/typescript-plugin-vue": "^0.6.0",
+    "chalk": "^4.1.0",
+    "concurrently": "^5.3.0",
+    "dotenv": "^8.2.0",
+    "electron": "^11.2.3",
+    "electron-builder": "^22.9.1",
+    "electron-connect": "^0.6.3",
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.5.0",
+    "minimist": "^1.2.5",
+    "ora": "^5.3.0",
+    "prettier": "^2.2.1",
+    "rollup-plugin-esbuild": "^2.6.1",
+    "sass": "^1.32.7",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3",
+    "vite": "^2.0.0-beta.65",
+    "vite-plugin-style-import": "^0.7.3"
+  }
+}

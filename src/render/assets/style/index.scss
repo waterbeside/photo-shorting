@@ -1,0 +1,29 @@
+@import './var.scss';
+
+body {
+  padding: 0;
+  margin: 0;
+}
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.all {
+  display: flex;
+  align-items: stretch;
+  height: 100vh;
+}
+
+
+.photos-container {
+  min-width: 300px;
+  width: 50%;
+}
+
+.tools-container {
+  width: 50%;
+}

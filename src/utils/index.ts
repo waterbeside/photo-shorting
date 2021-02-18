@@ -1,0 +1,7 @@
+export function isImageType(file: Blob) {
+  const type = file.type;
+  if (type.indexOf('image/') === 0) {
+    return true;
+  }
+  return false;
+}
