@@ -41,6 +41,7 @@
 <script lang="ts">
   import { defineComponent, ref, watch } from 'vue';
   import { isImageType } from '../utils';
+  import { Upload } from 'ant-design-vue';
   import { CloseCircleFilled } from '@ant-design/icons-vue';
 
   interface PhotoItem {
@@ -53,6 +54,7 @@
   export default defineComponent({
     name: 'App',
     components: {
+      AUploadDragger: Upload.Dragger,
       CloseCircleFilled
     },
     setup() {
