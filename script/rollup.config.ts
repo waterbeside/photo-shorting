@@ -1,13 +1,13 @@
-import { join } from 'path';
-import { RollupOptions } from 'rollup';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import esbuild from 'rollup-plugin-esbuild';
-import alias from '@rollup/plugin-alias';
-import json from '@rollup/plugin-json';
+import { join } from 'path'
+import { RollupOptions } from 'rollup'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
+import esbuild from 'rollup-plugin-esbuild'
+import alias from '@rollup/plugin-alias'
+import json from '@rollup/plugin-json'
 
 export default (env = 'production') => {
-  console.log(env);
+  console.log(env)
   const options: RollupOptions = {
     input: join(__dirname, '../src/main/index.ts'),
     output: {
@@ -60,7 +60,7 @@ export default (env = 'production') => {
       'path',
       'electron'
     ]
-  };
+  }
 
-  return options;
-};
+  return options
+}
