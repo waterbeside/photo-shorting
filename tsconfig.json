@@ -1,7 +1,7 @@
-
-{  "compilerOptions": {
+{  
+  "compilerOptions": {
     "target": "ESNext",
-    "module": "ESNext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "jsx": "preserve",
     "sourceMap": true,
@@ -16,11 +16,17 @@
       "root/*": ["/*"]
     }
   },
+  "ts-node": {
+    "files": true
+  },
+  "files": [
+    "typings/index.d.ts"
+  ],
   "include": [
+    "typings/*.d.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
-    "typings/*.d.ts"
+    "src/**/*.vue"
   ]
 }
