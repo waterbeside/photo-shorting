@@ -1,7 +1,6 @@
 <template>
   <div class="photos-container">
     <a-upload-dragger
-      v-model:fileList="fileList"
       name="file"
       :multiple="true"
       :show-upload-list="false"
@@ -31,15 +30,22 @@
     </a-upload-dragger>
   </div>
   <div class="tools-container">
-    <img v-if="photoSelected && typeof photoSelected.src === 'string'" :src="photoSelected.src" />
+    <img
+      v-if="photoSelected && typeof photoSelected.src === 'string'"
+      :src="photoSelected.src"
+      @click="handleClickPreview"
+    />
   </div>
 </template>
 
 <script lang="ts">
   import { defineComponent, ref, watch } from 'vue'
   import { isImageType } from '../../utils'
+  import ipcStore from '../../utils/ipcStroe'
   import { Upload } from 'ant-design-vue'
   import { CloseCircleFilled } from '@ant-design/icons-vue'
+
+  const ipcRenderer: any = typeof require === 'function' ? require('electron').ipcRenderer : null
 
   interface PhotoItem {
     uid: string
@@ -65,6 +71,9 @@
         console.log('fileList val', val)
       })
       // methods
+      /**
+       * 提交图片
+       */
       const beforeUpload = (file: any, fileList: any[]) => {
         let reader = new window.FileReader()
         if (!isImageType(file)) {
@@ -83,6 +92,7 @@
           photoList.value.push(imageItemData)
           // fileSrc.value = reader.result;
           console.log('photoList', photoList)
+          ipcSetPhotoListMap()
         }
         console.log('beforeUpload file', file)
         console.log('beforeUpload fileList', fileList)
@@ -90,6 +100,18 @@
       }
       const transformFile = (file: any) => {
         console.log('transformFile file', file)
+      }
+      const ipcSetPhotoListMap = () => {
+        const photoMap: any = {}
+        for (const item of photoList.value) {
+          photoMap[item.uid] = {
+            uid: item.uid,
+            name: item.name,
+            src: item.src
+          }
+        }
+        console.log('ipcSetPhotoListMap', photoMap)
+        ipcStore('photo-map').set(photoMap)
       }
       /**
        * 点击图片列表的某张图片时
@@ -111,15 +133,19 @@
           }
           newPhotoList.push(item)
         }
-        // for (const item of fileList.value) {
-        //   if (item.uid === photoItemUid) {
-        //     continue;
-        //   }
-        //   newPhotoList.push(item);
-        // }
         photoList.value = newPhotoList
+        ipcSetPhotoListMap()
+
         console.log('handleDelPicture', photoItemUid)
         return false
+      }
+
+      const handleClickPreview = () => {
+        if (ipcRenderer) {
+          const uid = photoSelected.value?.uid
+          console.log('on click preview')
+          ipcRenderer.send('open-preview', { uid })
+        }
       }
 
       // return
@@ -128,6 +154,7 @@
         transformFile,
         handleClickPicture,
         handleDelPicture,
+        handleClickPreview,
         fileList,
         photoList,
         photoSelected

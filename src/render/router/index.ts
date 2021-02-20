@@ -6,6 +6,11 @@ const routes: Array<any> = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/preview/:uid',
+    name: 'PreviewPic',
+    component: () => import('../views/PreviewPic.vue')
   }
 ]
 
