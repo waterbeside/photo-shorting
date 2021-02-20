@@ -11,7 +11,7 @@ export default (env = 'production') => {
   const options: RollupOptions = {
     input: join(__dirname, '../src/main/index.ts'),
     output: {
-      file: join(__dirname, '../dist/main/_.js'),
+      file: join(__dirname, '../dist/main/build.js'),
       format: 'cjs',
       name: 'ElectronMainBundle',
       sourcemap: true
