@@ -23,11 +23,16 @@ body {
 .photos-container {
   min-width: 300px;
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  width:50%;
+  
 }
 
 .tools-container {
-  width: 50%;
+  width:50%;
+  min-width: 400px;
   max-width: 500px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }

@@ -166,9 +166,14 @@
 <style lang="scss" scoped>
   @import '../../assets/style/_var.scss';
   .photos-container {
+    flex-direction: column;
+    
     .upload-box {
+      // display: block;
       display: flex;
-      height: 100%;
+      flex-grow: 1;
+      width: 100%;
+      background-color: #444;
 
       &.have-data {
         justify-content: flex-start;
@@ -181,6 +186,9 @@
         background-color: #444;
         border-radius: 0;
         border-color: #555;
+        border: none;
+        height: auto;
+
       }
       :deep(p.ant-upload-text) {
         color: #bbb;
@@ -203,7 +211,7 @@
         border-radius: 10px;
         margin: 10px;
         background: #fff;
-        box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.2), -10px -10px 25px rgba(255, 255, 255, 0.2);
+        box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.2), -10px -10px 25px rgba(255, 255, 255, 0.1);
         position: relative;
         .close-btn {
           display: none;
