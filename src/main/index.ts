@@ -2,7 +2,7 @@
  * electron 主文件
  */
 import { join } from 'path'
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 
 import dotenv from 'dotenv'
 import { setIpcStore } from './setIpcStore'
@@ -27,6 +27,15 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     new createMainWin()
   }
+})
+
+// ********* ipcMain on
+// 打开
+ipcMain.handle('open-directory-dialog', async (e: any, setting: any) => {
+  const defaultSetting = { properties: ['openDirectory'] }
+  const opt = Object.assign({}, defaultSetting, setting)
+  const res = await dialog.showOpenDialog(opt)
+  return res
 })
 
 setIpcStore()
