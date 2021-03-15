@@ -16,14 +16,18 @@ body {
   display: flex;
   align-items: stretch;
   height: 100vh;
+  overflow: hidden;
 }
 
 
 .photos-container {
   min-width: 300px;
-  width: 50%;
+  flex-grow: 1;
+  overflow-y: scroll;
 }
 
 .tools-container {
   width: 50%;
+  max-width: 500px;
+  overflow-y: scroll;
 }
