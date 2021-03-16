@@ -167,7 +167,6 @@
   @import '../../assets/style/_var.scss';
   .photos-container {
     flex-direction: column;
-    
     .upload-box {
       // display: block;
       display: flex;
@@ -188,7 +187,6 @@
         border-color: #555;
         border: none;
         height: auto;
-
       }
       :deep(p.ant-upload-text) {
         color: #bbb;
