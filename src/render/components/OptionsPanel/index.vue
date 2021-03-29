@@ -1,5 +1,5 @@
 <template>
-  <div class="options-panel">
+  <section class="options-panel">
     <a-form :model="formState" :label-col="labelCol" :wrapper-col="wrapperCol">
       <a-form-item label="旋转">
         <a-slider
@@ -40,16 +40,16 @@
           v-model:value="formState.width"
           placeholder="Width"
           type="number"
-          style="width: 120px"
+          style="width: 130px"
         >
           <template #addonAfter>px</template>
         </a-input>
-        <span class="times-sign">*</span>
+        <span class="times-sign"> </span>
         <a-input
           v-model:value="formState.height"
           placeholder="Height"
           type="number"
-          style="width: 120px"
+          style="width: 130px"
         >
           <template #addonAfter>px</template>
         </a-input>
@@ -57,16 +57,16 @@
 
       <a-button class="submit-btn" type="primary" @click="onSubmit">OK</a-button>
     </a-form>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive, toRaw, UnwrapRef } from 'vue'
+  import { defineComponent, reactive, toRaw, PropType, watch, ref } from 'vue'
   import { Form, Button, Input, Select, Switch, Slider } from 'ant-design-vue'
   import SelectDirBtn from '../SelectDirBtn/index.vue'
   import { FolderOutlined } from '@ant-design/icons-vue'
 
-  interface FormState {
+  export interface OptionsData {
     rotate: number
     dirPath: string
     dpi: number | undefined
@@ -88,32 +88,45 @@
       SelectDirBtn,
       FolderOutlined
     },
-    setup() {
-      const formState: UnwrapRef<FormState> = reactive({
-        rotate: 0,
-        dirPath: '',
-        dpi: undefined,
-        isChangeSize: false,
-        isFixWh: false,
-        width: undefined,
-        height: undefined
-      })
+    props: {
+      data: {
+        type: Object as PropType<OptionsData>,
+        default: () => []
+      }
+    },
+    emits: ['update:data'],
+    setup(props, ctx) {
+      // data
+      const formState = ref<OptionsData>(props.data)
       const marks = reactive({
         0: '0°',
         90: '90°',
         180: '180°',
         270: '270°'
       })
+      const test = ref()
 
+      // watch
+      watch(
+        formState,
+        (val: any) => {
+          ctx.emit('update:data', val)
+        },
+        { deep: true }
+      )
+
+      // methods
       const onSubmit = () => {
         console.log('submit!', toRaw(formState))
       }
+
       return {
         labelCol: { span: 6 },
         wrapperCol: { span: 14 },
         formState,
         marks,
-        onSubmit
+        onSubmit,
+        test
       }
     }
   })
