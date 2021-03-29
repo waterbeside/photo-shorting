@@ -1,5 +1,5 @@
 <template>
-  <div class="photos-container">
+  <section class="photos-container">
     <a-upload-dragger
       name="file"
       :multiple="true"
@@ -28,11 +28,11 @@
         </template>
       </ul>
     </a-upload-dragger>
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, watch } from 'vue'
+  import { defineComponent, ref, watch, PropType } from 'vue'
   import { isImageType } from '../../../utils'
   import ipcStore from '../../../utils/ipcStroe'
   import { Upload } from 'ant-design-vue'
@@ -53,11 +53,11 @@
     },
     props: {
       photos: {
-        type: Array,
+        type: Array as PropType<PhotoItem[]>,
         default: () => []
       },
       selected: {
-        type: Object,
+        type: Object as PropType<PhotoItem>,
         default: () => {
           return null
         }
@@ -67,9 +67,8 @@
     setup(props, ctx) {
       // data
       let fileList = ref([])
-      let photoList = ref<PhotoItem[]>((props as any).photos)
-      let photoSelected = ref<PhotoItem | null>((props as any).selected)
-      console.log(1111111)
+      let photoList = ref<PhotoItem[]>(props.photos)
+      let photoSelected = ref<PhotoItem | null>(props.selected)
       // watch
       watch(photoList, (val: any) => {
         ctx.emit('update:photos', val)
