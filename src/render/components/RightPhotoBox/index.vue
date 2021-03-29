@@ -9,7 +9,6 @@
       @click="handleClickPreview"
     />
   </section>
-  {{ rotate }}
 </template>
 <script lang="ts">
   import { defineComponent, PropType, watch, onMounted, ref, nextTick } from 'vue'
@@ -53,10 +52,15 @@
           if (picDom && picWrapperDom) {
             if (![0, 180].includes(props.rotate)) {
               // 如果不是0度和180度则进行宽高计算处理
-              console.log('h', picWrapperDom.offsetHeight)
-              console.log('w', picWrapperDom.offsetWidth)
-              console.log('h', picDom.offsetHeight)
-              console.log('w', picDom.offsetWidth)
+              if (picDom.offsetWidth > picWrapperDom.offsetHeight) {
+                // 当图片宽度大于外高度时
+                picDom.style.width = picWrapperDom.offsetHeight + 'px'
+              } else if (picDom.offsetHeight > picWrapperDom.offsetWidth) {
+                picDom.style.height = picWrapperDom.offsetWidth + 'px'
+              }
+            } else {
+              picDom.style.width = 'auto'
+              picDom.style.height = 'auto'
             }
           }
         })
