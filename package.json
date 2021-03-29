@@ -58,7 +58,7 @@
     "ant-design-vue": "^2.0.0",
     "electron-is-dev": "^1.2.0",
     "electron-store": "^7.0.2",
-    "vue": "^3.0.5",
+    "vue": "^3.0.8",
     "vue-router": "^4.0.3"
   },
   "devDependencies": {
@@ -71,7 +71,7 @@
     "@typescript-eslint/eslint-plugin": "^4.15.0",
     "@typescript-eslint/parser": "^4.15.0",
     "@vitejs/plugin-vue": "^1.1.4",
-    "@vue/compiler-sfc": "^3.0.5",
+    "@vue/compiler-sfc": "^3.0.8",
     "@vuedx/typecheck": "^0.6.0",
     "@vuedx/typescript-plugin-vue": "^0.6.0",
     "chalk": "^4.1.0",
