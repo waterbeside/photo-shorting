@@ -8,7 +8,6 @@
   <section class="tools-container">
     <RightPhotoBox :photo="photoSelected" :rotate="formState.rotate" />
     <OptionsPanel v-model:data="formState" />
-    {{ formState.rotate }}
   </section>
 </template>
 
