@@ -38,7 +38,9 @@
         isChangeSize: false,
         isFixWh: false,
         width: undefined,
-        height: undefined
+        height: undefined,
+        autoWidth: false,
+        autoHeight: false
       })
       // methods
       const transformFile = (file: any) => {
