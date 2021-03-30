@@ -5,9 +5,9 @@ import { join } from 'path'
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 
 import dotenv from 'dotenv'
-import { setIpcStore } from './setIpcStore'
-import { setPreviewPicWin } from './wins/setPreviewPicWin'
-import { createMainWin } from './wins/createMainWin'
+import { setIpcStore } from './ipc/setIpcStore'
+import { setPreviewPicWin } from './windowManager/setPreviewPicWin'
+import { createMainWin } from './windowManager/createMainWin'
 
 dotenv.config({ path: join(__dirname, '../../.env') })
 
