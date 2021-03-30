@@ -54,16 +54,18 @@
           <template #addonAfter>px</template>
         </a-input>
       </a-form-item>
-
-      <a-button class="submit-btn" type="primary" @click="onSubmit">OK</a-button>
+      <div class="btn-bar">
+        <a-button class="submit-btn" type="primary" @click="handleOk">处理当前</a-button>
+        <a-button class="batch-submit-btn" type="primary" @click="handleBatchOk">批量处理</a-button>
+      </div>
     </a-form>
   </section>
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive, toRaw, PropType, watch, ref } from 'vue'
+  import { defineComponent, reactive, toRaw, PropType, watch, UnwrapRef } from 'vue'
   import { Form, Button, Input, Select, Switch, Slider } from 'ant-design-vue'
-  import SelectDirBtn from '../SelectDirBtn/index.vue'
+  import SelectDirBtn from '../SelectDirBtn.vue'
   import { FolderOutlined } from '@ant-design/icons-vue'
 
   export interface OptionsData {
@@ -75,6 +77,7 @@
     width: number | undefined
     height: number | undefined
   }
+
   export default defineComponent({
     components: {
       AForm: Form,
@@ -94,17 +97,16 @@
         default: () => []
       }
     },
-    emits: ['update:data'],
+    emits: ['update:data', 'click-ok', 'click-batch-ok'],
     setup(props, ctx) {
       // data
-      const formState = ref<OptionsData>(props.data)
+      const formState: UnwrapRef<OptionsData> = reactive(props.data)
       const marks = reactive({
         0: '0°',
         90: '90°',
         180: '180°',
         270: '270°'
       })
-      const test = ref()
 
       // watch
       watch(
@@ -116,8 +118,12 @@
       )
 
       // methods
-      const onSubmit = () => {
-        console.log('submit!', toRaw(formState))
+      const handleOk = () => {
+        ctx.emit('click-ok', toRaw(formState))
+      }
+
+      const handleBatchOk = () => {
+        ctx.emit('click-batch-ok', toRaw(formState))
       }
 
       return {
@@ -125,8 +131,8 @@
         wrapperCol: { span: 14 },
         formState,
         marks,
-        onSubmit,
-        test
+        handleOk,
+        handleBatchOk
       }
     }
   })
@@ -140,10 +146,13 @@
       line-height: 1.4;
       word-break: break-all;
     }
-    .submit-btn {
+    .btn-bar {
       position: fixed;
       right: 12px;
       bottom: 12px;
+      .submit-btn {
+        margin-right: 4px;
+      }
     }
     .times-sign {
       display: inline-block;
