@@ -12,6 +12,8 @@ export class createMainWin {
     wins.mainWin = new BrowserWindow({
       width: 1024,
       height: 700,
+      minWidth: 800,
+      minHeight: 700,
       webPreferences: {
         nodeIntegration: true,
         enableRemoteModule: true
