@@ -55,8 +55,14 @@
         </a-input>
       </a-form-item>
       <div class="btn-bar">
-        <a-button class="submit-btn" type="primary" @click="handleOk">处理当前</a-button>
-        <a-button class="batch-submit-btn" type="primary" @click="handleBatchOk">批量处理</a-button>
+        <a-button class="submit-btn" type="primary" @click="handleOk">
+          <SvgIcon class="icon" name="photo" />
+          处理当前
+        </a-button>
+        <a-button class="batch-submit-btn" type="primary" @click="handleBatchOk">
+          <SvgIcon class="icon" name="photos" />
+          批量处理
+        </a-button>
       </div>
     </a-form>
   </section>
@@ -67,6 +73,7 @@
   import { Form, Button, Input, Select, Switch, Slider } from 'ant-design-vue'
   import SelectDirBtn from '../SelectDirBtn.vue'
   import { FolderOutlined } from '@ant-design/icons-vue'
+  import SvgIcon from '../SvgIcon.vue'
 
   export interface OptionsData {
     rotate: number
@@ -89,7 +96,8 @@
       ASwitch: Switch,
       ASlider: Slider,
       SelectDirBtn,
-      FolderOutlined
+      FolderOutlined,
+      SvgIcon
     },
     props: {
       data: {
@@ -152,6 +160,10 @@
       bottom: 12px;
       .submit-btn {
         margin-right: 4px;
+      }
+      .icon {
+        margin-right: 4px;
+        transform: translateY(2px);
       }
     }
     .times-sign {
