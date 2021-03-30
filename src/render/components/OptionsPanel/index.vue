@@ -203,8 +203,7 @@
       }
     }
     .btn-bar {
-      position: fixed;
-      background: #555;
+      position: absolute;
       padding: 4px;
       left: 0;
       right: 0;
