@@ -14,17 +14,10 @@
   import { defineComponent, PropType, watch, onMounted, ref, nextTick } from 'vue'
   const ipcRenderer: any = typeof require === 'function' ? require('electron').ipcRenderer : null
 
-  export interface PhotoItem {
-    uid: string
-    name?: string
-    file?: any
-    src?: string | null | ArrayBuffer
-  }
-
   export default defineComponent({
     props: {
       photo: {
-        type: Object as PropType<PhotoItem>,
+        type: Object as PropType<IPhotoItem>,
         default: () => null
       },
       rotate: {

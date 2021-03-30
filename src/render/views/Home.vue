@@ -15,7 +15,7 @@
   import { defineComponent, ref, UnwrapRef, reactive } from 'vue'
   import PhotosContainer from '../components/PhotosContainer/index.vue'
   import OptionsPanel, { OptionsData } from '../components/OptionsPanel/index.vue'
-  import RightPhotoBox, { PhotoItem } from '../components/RightPhotoBox/index.vue'
+  import RightPhotoBox from '../components/RightPhotoBox/index.vue'
 
   const ipcRenderer: any = typeof require === 'function' ? require('electron').ipcRenderer : null
 
@@ -29,8 +29,8 @@
     setup() {
       // data
       let fileList = ref([])
-      let photoList = ref<PhotoItem[]>([])
-      let photoSelected = ref<PhotoItem>()
+      let photoList = ref<IPhotoItem[]>([])
+      let photoSelected = ref<IPhotoItem>()
       const formState: UnwrapRef<OptionsData> = reactive({
         rotate: 0,
         dirPath: '',
@@ -47,7 +47,7 @@
       /**
        * 点击图片列表的某张图片时
        */
-      const handleClickPhoto = (photoItem: PhotoItem) => {
+      const handleClickPhoto = (photoItem: IPhotoItem) => {
         console.log('handleClickPicture', photoItem)
         return false
       }
