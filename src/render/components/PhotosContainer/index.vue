@@ -12,19 +12,13 @@
         <p class="ant-upload-text"> 点击上传或拖动图片到这里 </p>
       </div>
       <ul v-if="photoList.length > 0" class="photo-list">
-        <template v-for="item in photoList">
-          <li
-            v-if="typeof item.src === 'string'"
-            :key="item.uid"
-            class="photo-item"
-            :class="{ selected: photoSelected && item.uid === photoSelected.uid }"
-            @click.stop="handleClickPicture(item)"
-          >
-            <span class="close-btn" @click.stop="handleDelPicture(item.uid)">
-              <CloseCircleFilled />
-            </span>
-            <img :src="item.src" class="photo" />
-          </li>
+        <template v-for="item in photoList" :key="item.uid">
+          <photo-item
+            :photo="item"
+            :selected="photoSelected !== null && item.uid === photoSelected.uid"
+            @click-photo="handleClickPicture"
+            @del-photo="handleDelPicture"
+          />
         </template>
       </ul>
     </a-upload-dragger>
@@ -36,28 +30,21 @@
   import { isImageType } from '../../../utils'
   import ipcStore from '../../../utils/ipcStroe'
   import { Upload } from 'ant-design-vue'
-  import { CloseCircleFilled } from '@ant-design/icons-vue'
-
-  interface PhotoItem {
-    uid: string
-    name?: string
-    file?: any
-    src?: string | null | ArrayBuffer
-  }
+  import PhotoItem from './PhotoItem.vue'
 
   export default defineComponent({
     name: 'PhotosContaioner',
     components: {
       AUploadDragger: Upload.Dragger,
-      CloseCircleFilled
+      PhotoItem
     },
     props: {
       photos: {
-        type: Array as PropType<PhotoItem[]>,
+        type: Array as PropType<IPhotoItem[]>,
         default: () => []
       },
       selected: {
-        type: Object as PropType<PhotoItem>,
+        type: Object as PropType<IPhotoItem>,
         default: () => {
           return null
         }
@@ -67,8 +54,8 @@
     setup(props, ctx) {
       // data
       let fileList = ref([])
-      let photoList = ref<PhotoItem[]>(props.photos)
-      let photoSelected = ref<PhotoItem | null>(props.selected)
+      let photoList = ref<IPhotoItem[]>(props.photos)
+      let photoSelected = ref<IPhotoItem | null>(props.selected)
       // watch
       watch(photoList, (val: any) => {
         ctx.emit('update:photos', val)
@@ -89,7 +76,7 @@
         console.log('reader', reader)
         reader.onload = function () {
           console.log('reader.result', reader.result) //获取到base64格式图片
-          const imageItemData: PhotoItem = {
+          const imageItemData: IPhotoItem = {
             src: reader.result,
             file,
             name: file.name,
@@ -122,7 +109,7 @@
       /**
        * 点击图片列表的某张图片时
        */
-      const handleClickPicture = (photoItem: PhotoItem) => {
+      const handleClickPicture = (photoItem: IPhotoItem) => {
         console.log('handleClickPicture', photoItem)
         photoSelected.value = photoItem
         ctx.emit('click-photo', photoItem)
@@ -132,9 +119,9 @@
        * 点击删除单张图片
        */
       const handleDelPicture = (photoItemUid: string) => {
-        const newPhotoList: PhotoItem[] = []
+        const newPhotoList: IPhotoItem[] = []
         // const newFileList: PhotoItem[] = [];
-        let delItem: PhotoItem | null = null
+        let delItem: IPhotoItem | null = null
         for (const item of photoList.value) {
           if (item.uid === photoItemUid) {
             delItem = item
@@ -201,38 +188,6 @@
       list-style: none;
       padding: 0;
       margin: 0;
-      .photo-item {
-        display: inline-block;
-        width: 122px;
-        border: 1px solid #fff;
-        border-radius: 10px;
-        margin: 10px;
-        background: #fff;
-        box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.2), -10px -10px 25px rgba(255, 255, 255, 0.1);
-        position: relative;
-        .close-btn {
-          display: none;
-          position: absolute;
-          font-size: 18px;
-          right: -6px;
-          top: -8px;
-        }
-        &.selected {
-          background-image: repeating-linear-gradient(45deg, #eee 0, #eee 1px, #ddd 0, #ddd 5px);
-          border-color: #888;
-        }
-        &:hover {
-          border-color: $primary-color;
-          .close-btn {
-            display: inline-block;
-          }
-        }
-      }
-      .photo {
-        width: 120px;
-        height: 120px;
-        object-fit: scale-down;
-      }
     }
   }
 </style>
