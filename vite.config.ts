@@ -49,6 +49,9 @@ const config = defineConfig({
             if (/popconfirm/.test(name)) {
               return 'ant-design-vue/es/popover/style/index.css'
             }
+            if (/row/.test(name) || /col/.test(name)) {
+              return 'ant-design-vue/es/grid/style/index.css'
+            }
             return `ant-design-vue/es/${name}/style/index.css`
           }
         }
