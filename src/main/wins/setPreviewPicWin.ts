@@ -40,6 +40,7 @@ export function createPreviewWin(uid: string, mainWindow: BrowserWindow | null) 
   wins.previewPicWins[uid].webContents.openDevTools()
   wins.previewPicWins[uid].loadURL(URL)
   wins.previewPicWins[uid].show()
+  wins.previewPicWins[uid].setMenu(null)
 
   wins.previewPicWins[uid].on('closed', () => {
     delete wins.previewPicWins[uid]

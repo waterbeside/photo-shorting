@@ -28,6 +28,7 @@ export class createMainWin {
       wins.mainWin.webContents.openDevTools()
     }
 
+    wins.mainWin.setMenu(null)
     wins.mainWin.loadURL(URL)
   }
 }
