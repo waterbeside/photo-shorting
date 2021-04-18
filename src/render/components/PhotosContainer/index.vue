@@ -27,6 +27,7 @@
 
 <script lang="ts">
   import { defineComponent, ref, watch, PropType } from 'vue'
+  import { useStore } from 'vuex'
   import { isImageType } from '../../../utils'
   import ipcStore from '../../../utils/ipcStroe'
   import { Upload } from 'ant-design-vue'
@@ -53,6 +54,7 @@
     emits: ['update:photos', 'update:selected', 'click-photo', 'del-photo'],
     setup(props, ctx) {
       // data
+      const store = useStore()
       let fileList = ref([])
       let photoList = ref<IPhotoItem[]>(props.photos)
       let photoSelected = ref<IPhotoItem | null>(props.selected)
@@ -110,8 +112,8 @@
        * 点击图片列表的某张图片时
        */
       const handleClickPicture = (photoItem: IPhotoItem) => {
-        console.log('handleClickPicture', photoItem)
         photoSelected.value = photoItem
+        store.commit('SET_PHOTO_SELECTED', photoItem)
         ctx.emit('click-photo', photoItem)
         return false
       }
