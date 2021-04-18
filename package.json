@@ -59,7 +59,8 @@
     "electron-is-dev": "^1.2.0",
     "electron-store": "^7.0.2",
     "vue": "^3.0.8",
-    "vue-router": "^4.0.3"
+    "vue-router": "^4.0.3",
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.2",
