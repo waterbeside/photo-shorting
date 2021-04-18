@@ -6,6 +6,7 @@ import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 
 import dotenv from 'dotenv'
 import { setIpcStore } from './ipc/setIpcStore'
+import { setRunPicIpc } from './ipc/setRunPicIpc'
 import { setPreviewPicWin } from './windowManager/setPreviewPicWin'
 import { createMainWin } from './windowManager/createMainWin'
 
@@ -39,4 +40,5 @@ ipcMain.handle('open-directory-dialog', async (e: any, setting: any) => {
 })
 
 setIpcStore()
+setRunPicIpc()
 setPreviewPicWin()

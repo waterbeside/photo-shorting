@@ -8,8 +8,7 @@
 <script lang="ts">
   import { ref, defineComponent, watch, computed } from 'vue'
   import { FolderOutlined } from '@ant-design/icons-vue'
-
-  const ipcRenderer: any = typeof require === 'function' ? require('electron').ipcRenderer : null
+  import { ipcRenderer } from '../../utils'
 
   export default defineComponent({
     name: 'SelectDirBtn',

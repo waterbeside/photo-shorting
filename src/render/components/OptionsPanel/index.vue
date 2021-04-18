@@ -35,7 +35,7 @@
         <a-switch v-model:checked="formState.isFixWh" />
       </a-form-item> -->
 
-      <a-form-item label="尺寸" class="wh-wrapper">
+      <a-form-item v-show="formState.isChangeSize" label="尺寸" class="wh-wrapper">
         <a-row :gutter="[8, 8]">
           <a-col>
             <a-tooltip placement="left">
@@ -93,6 +93,7 @@
 
 <script lang="ts">
   import { defineComponent, reactive, toRaw, PropType, watch, UnwrapRef } from 'vue'
+  import { ipcRenderer } from '../../../utils'
   import {
     Form,
     Button,
@@ -109,7 +110,7 @@
   import { FolderOutlined } from '@ant-design/icons-vue'
   import SvgIcon from '../SvgIcon.vue'
 
-  export interface OptionsData {
+  export interface OptionsDataType {
     rotate: number
     dirPath: string
     dpi: number | undefined
@@ -141,14 +142,14 @@
     },
     props: {
       data: {
-        type: Object as PropType<OptionsData>,
+        type: Object as PropType<OptionsDataType>,
         default: () => []
       }
     },
     emits: ['update:data', 'click-ok', 'click-batch-ok'],
     setup(props, ctx) {
       // data
-      const formState: UnwrapRef<OptionsData> = reactive(props.data)
+      const formState: UnwrapRef<OptionsDataType> = reactive(props.data)
       const marks = reactive({
         0: '0°',
         90: '90°',
@@ -168,10 +169,12 @@
       // methods
       const handleOk = () => {
         ctx.emit('click-ok', toRaw(formState))
+        ipcRenderer.send('run-selected-ok', toRaw(formState))
       }
 
       const handleBatchOk = () => {
         ctx.emit('click-batch-ok', toRaw(formState))
+        ipcRenderer.sendSync('run-batch-ok', toRaw(formState))
       }
 
       return {
