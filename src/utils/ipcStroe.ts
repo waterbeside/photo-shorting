@@ -1,8 +1,4 @@
-let ipcRenderer: any = null
-if (typeof require === 'function') {
-  const electron = require('electron')
-  ipcRenderer = electron.ipcRenderer
-}
+import { ipcRenderer } from './index'
 
 console.log('typeof require', typeof require)
 interface IpcStoreReturn {

@@ -14,7 +14,7 @@
 <script lang="ts">
   import { defineComponent, ref, UnwrapRef, reactive } from 'vue'
   import PhotosContainer from '../components/PhotosContainer/index.vue'
-  import OptionsPanel, { OptionsData } from '../components/OptionsPanel/index.vue'
+  import OptionsPanel, { OptionsDataType } from '../components/OptionsPanel/index.vue'
   import RightPhotoBox from '../components/RightPhotoBox/index.vue'
 
   const ipcRenderer: any = typeof require === 'function' ? require('electron').ipcRenderer : null
@@ -31,7 +31,7 @@
       let fileList = ref([])
       let photoList = ref<IPhotoItem[]>([])
       let photoSelected = ref<IPhotoItem>()
-      const formState: UnwrapRef<OptionsData> = reactive({
+      const formState: UnwrapRef<OptionsDataType> = reactive({
         rotate: 0,
         dirPath: '',
         dpi: 72,
@@ -40,7 +40,7 @@
         width: undefined,
         height: undefined,
         autoWidth: false,
-        autoHeight: false
+        autoHeight: true
       })
       // methods
       const transformFile = (file: any) => {

@@ -1,3 +1,5 @@
+export const ipcRenderer = require('electron').ipcRenderer
+
 export function isImageType(file: Blob) {
   const type = file.type
   if (type.indexOf('image/') === 0) {
