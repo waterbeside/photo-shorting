@@ -2,12 +2,11 @@
  * electron 主文件
  */
 import { join } from 'path'
-import { app, BrowserWindow, dialog, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
 
 import dotenv from 'dotenv'
 import { setIpcStore } from './ipc/setIpcStore'
-import { setRunPicIpc } from './ipc/setRunPicIpc'
-import { setPreviewPicWin } from './windowManager/setPreviewPicWin'
+import { setIpcs } from './ipc'
 import { createMainWin } from './windowManager/createMainWin'
 
 dotenv.config({ path: join(__dirname, '../../.env') })
@@ -30,15 +29,6 @@ app.on('activate', () => {
   }
 })
 
-// ********* ipcMain on
-// 打开
-ipcMain.handle('open-directory-dialog', async (e: any, setting: any) => {
-  const defaultSetting = { properties: ['openDirectory'] }
-  const opt = Object.assign({}, defaultSetting, setting)
-  const res = await dialog.showOpenDialog(opt)
-  return res
-})
-
+// ********* ipcMain
+setIpcs()
 setIpcStore()
-setRunPicIpc()
-setPreviewPicWin()

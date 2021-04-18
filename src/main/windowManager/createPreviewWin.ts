@@ -1,21 +1,7 @@
 import { join } from 'path'
 import { wins } from './wins'
-import { ipcMain, BrowserWindow } from 'electron'
+import { BrowserWindow } from 'electron'
 import is_dev from 'electron-is-dev'
-
-export function setPreviewPicWin() {
-  ipcMain.on('open-preview', async (e, args) => {
-    const uid = args.uid || null
-    if (!uid) {
-      return false
-    }
-    if (wins.previewPicWins[uid]) {
-      wins.previewPicWins[uid].show()
-    } else {
-      createPreviewWin(uid, wins.mainWin)
-    }
-  })
-}
 
 export function createPreviewWin(uid: string, mainWindow: BrowserWindow | null) {
   let URL = is_dev
