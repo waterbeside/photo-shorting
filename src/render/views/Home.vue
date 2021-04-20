@@ -9,11 +9,13 @@
     <RightPhotoBox :photo="photoSelected" :rotate="formState.rotate" />
     <OptionsPanel v-model:data="formState" />
   </section>
+  <Processing v-if="isProcess" />
 </template>
 
 <script lang="ts">
   import { defineComponent, ref, UnwrapRef, reactive } from 'vue'
   import PhotosContainer from '../components/PhotosContainer/index.vue'
+  import Processing from '../components/Processing.vue'
   import OptionsPanel, { OptionsDataType } from '../components/OptionsPanel/index.vue'
   import RightPhotoBox from '../components/RightPhotoBox/index.vue'
 
@@ -24,13 +26,15 @@
     components: {
       PhotosContainer,
       OptionsPanel,
-      RightPhotoBox
+      RightPhotoBox,
+      Processing
     },
     setup() {
       // data
-      let fileList = ref([])
-      let photoList = ref<IPhotoItem[]>([])
+      let fileList = reactive([])
+      let photoList = reactive<IPhotoItem[]>([])
       let photoSelected = ref<IPhotoItem>()
+      let isProcess = ref<Boolean>(true)
       const formState: UnwrapRef<OptionsDataType> = reactive({
         rotate: 0,
         dirPath: '',
@@ -72,7 +76,8 @@
         fileList,
         photoList,
         photoSelected,
-        formState
+        formState,
+        isProcess
       }
     }
   })
