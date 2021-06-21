@@ -1,19 +1,19 @@
 <template>
   <div class="select-dir-btn" @click="selectDir">
-    <FolderOutlined v-if="isNoSlot" />
+    <Folder48Regular v-if="isNoSlot" />
     <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
   import { ref, defineComponent, watch, computed } from 'vue'
-  import { FolderOutlined } from '@ant-design/icons-vue'
   import { ipcRenderer } from '../../utils'
+  import { Folder48Regular } from '@vicons/fluent'
 
   export default defineComponent({
     name: 'SelectDirBtn',
     components: {
-      FolderOutlined
+      Folder48Regular
     },
     props: {
       value: {
