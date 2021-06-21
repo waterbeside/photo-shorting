@@ -18,8 +18,7 @@
   import Processing from '../components/Processing.vue'
   import OptionsPanel, { OptionsDataType } from '../components/OptionsPanel/index.vue'
   import RightPhotoBox from '../components/RightPhotoBox/index.vue'
-
-  const ipcRenderer: any = typeof require === 'function' ? require('electron').ipcRenderer : null
+  import { ipcRenderer } from '../../utils'
 
   export default defineComponent({
     name: 'Home',
@@ -34,7 +33,7 @@
       let fileList = reactive([])
       let photoList = reactive<IPhotoItem[]>([])
       let photoSelected = ref<IPhotoItem>()
-      let isProcess = ref<Boolean>(true)
+      let isProcess = ref<Boolean>(false)
       const formState: UnwrapRef<OptionsDataType> = reactive({
         rotate: 0,
         dirPath: '',
@@ -65,6 +64,15 @@
           ipcRenderer.send('open-preview', { uid })
         }
       }
+
+      ipcRenderer.on('change-process-status', (event: any, args: any) => {
+        if (args.status) {
+          isProcess.value = true
+        } else {
+          isProcess.value = false
+        }
+        console.log('渲染进程收到的数据:', args)
+      })
 
       // return
       return {

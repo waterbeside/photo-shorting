@@ -27,5 +27,14 @@ export function setIpcs() {
   // 点击[处理当前]按钮时
   ipcMain.on('run-selected-ok', async (e, args) => {
     console.log('run-selected-ok args', args)
+    e.sender.send('change-process-status', {
+      status: true
+    })
+  })
+
+  // 点击[批量处理]按钮时
+  ipcMain.on('run-batch-ok', async (e, args) => {
+    console.log('run-batch-ok args', args)
+    e.returnValue = args
   })
 }
