@@ -55,9 +55,10 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.0.1",
-    "ant-design-vue": "^2.0.0",
+    "@vicons/fluent": "^0.10.0",
     "electron-is-dev": "^1.2.0",
     "electron-store": "^7.0.2",
+    "naive-ui": "^2.12.1",
     "vue": "^3.0.8",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"

@@ -7,12 +7,14 @@
         <div class="dot"></div>
         <div class="collection"></div>
       </div>
-      <a-progress
+      <n-progress
         type="circle"
-        :percent="percent"
+        :percentage="percent"
         class="progress"
         :width="120"
-        stroke-color="#096ae0"
+        :indicator-placement="'inside'"
+        processing
+        color="#017dc9"
       />
     </div>
     <div class="text"> 正在处理 ({{ current + 1 }}/{{ len }}) </div>
@@ -21,16 +23,16 @@
 
 <script lang="ts">
   import { defineComponent, computed } from 'vue'
-  import { Progress } from 'ant-design-vue'
+  import { NProgress } from 'naive-ui'
 
   export default defineComponent({
     components: {
-      AProgress: Progress
+      NProgress
     },
     props: {
       len: {
         type: Number,
-        default: 1
+        default: 2
       },
       current: {
         type: Number,
@@ -91,10 +93,11 @@
     }
   }
   .dot-wrapper {
-    // $dotColor: #096ae0;
-    $dotColor: hsl(183, 90%, 55%);
+    $dotColor: hsl(194, 77%, 65%);
+    // $dotColor: hsl(183, 90%, 45%);
     // $dotColor: hsl(183, 100%, 49%);
     // $dotColor: hsl(28, 100%, 50%);
+    // $test: #017dc9;
     position: absolute;
     left: -20px;
     right: -20px;
@@ -103,7 +106,8 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    filter: contrast(30) invert(100) hue-rotate(195deg);
+    // filter: contrast(30) invert(100) hue-rotate(195deg);
+    filter: contrast(30) invert(100) hue-rotate(180deg);
     background: #000;
     // border-radius: 100%;
     .dot {

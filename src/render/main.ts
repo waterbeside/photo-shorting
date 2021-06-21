@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import 'ant-design-vue/dist/antd.css'
 import './assets/style/index.scss'
 import 'vite-plugin-svg-icons/register'
 

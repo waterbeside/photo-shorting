@@ -1,8 +1,8 @@
 <template>
   <section class="options-panel">
-    <a-form :model="formState" :label-col="labelCol" :wrapper-col="wrapperCol">
-      <a-form-item label="旋转">
-        <a-slider
+    <n-form :model="formState" :label-col="labelCol" :wrapper-col="wrapperCol">
+      <n-form-item path="rotate" label="旋转" :show-require-mark="false">
+        <n-slider
           v-model:value="formState.rotate"
           :min="0"
           :max="270"
@@ -10,105 +10,104 @@
           :marks="marks"
           class="rotate-slider"
         />
-      </a-form-item>
+      </n-form-item>
 
-      <a-form-item label="保存路径">
+      <n-form-item path="dirPath" label="保存路径" :show-require-mark="false">
         <SelectDirBtn v-model:value="formState.dirPath">
           <span>{{ formState.dirPath ? formState.dirPath : '选择文件夹' }}</span> <FolderOutlined />
         </SelectDirBtn>
 
-        <a-input v-model:value="formState.dirPath" placeholder="请选择路径" type="hidden" />
-      </a-form-item>
-      <a-form-item label="DPI">
-        <a-select v-model:value="formState.dpi" placeholder="DPI">
-          <a-select-option value="72">72</a-select-option>
-          <a-select-option value="96">96</a-select-option>
-          <a-select-option value="300">300</a-select-option>
-        </a-select>
-      </a-form-item>
+        <!-- <n-input v-model:value="formState.dirPath" placeholder="请选择路径"  /> -->
+      </n-form-item>
+      <n-form-item path="dpi" label="DPI" :show-require-mark="false">
+        <n-select v-model:value="formState.dpi" placeholder="DPI" :options="dpiOptions"></n-select>
+      </n-form-item>
 
-      <a-form-item label="是否更尺寸">
-        <a-switch v-model:checked="formState.isChangeSize" />
-      </a-form-item>
+      <n-form-item path="dpi" label="是否更尺寸" :show-require-mark="false">
+        <n-switch v-model:value="formState.isChangeSize" />
+      </n-form-item>
 
-      <!-- <a-form-item label="固定比例">
-        <a-switch v-model:checked="formState.isFixWh" />
-      </a-form-item> -->
-
-      <a-form-item v-show="formState.isChangeSize" label="尺寸" class="wh-wrapper">
-        <a-row :gutter="[8, 8]">
-          <a-col>
-            <a-tooltip placement="left">
-              <template #title>
-                <span>宽 (px)</span>
+      <n-form-item
+        v-show="formState.isChangeSize"
+        path="width"
+        label="尺寸"
+        class="wh-wrapper"
+        :show-require-mark="false"
+      >
+        <div class="row">
+          <div class="col">
+            <n-tooltip placement="left" trigger="hover">
+              <template #trigger>
+                <n-input-number
+                  v-model:value="formState.width"
+                  placeholder="Width"
+                  :disabled="formState.autoWidth"
+                  class="input"
+                >
+                </n-input-number>
               </template>
-              <a-input
-                v-model:value="formState.width"
-                placeholder="Width"
-                type="number"
-                :disabled="formState.autoWidth"
-                class="input"
-              >
-              </a-input>
-            </a-tooltip>
-          </a-col>
-          <a-col>
-            <a-checkbox v-model:checked="formState.autoWidth" size="small">自动</a-checkbox>
-          </a-col>
-        </a-row>
-        <a-row :gutter="[8, 8]">
-          <a-col>
-            <a-tooltip placement="left">
-              <template #title>
-                <span>高 (px)</span>
+              <span>宽 (px)</span>
+            </n-tooltip>
+          </div>
+          <div class="col">
+            <n-checkbox v-model:checked="formState.autoWidth" size="small">自动</n-checkbox>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <n-tooltip placement="left" trigger="hover">
+              <template #trigger>
+                <n-input-number
+                  v-model:value="formState.height"
+                  placeholder="Height"
+                  type="number"
+                  :disabled="formState.autoHeight"
+                  class="input"
+                >
+                </n-input-number>
               </template>
-              <a-input
-                v-model:value="formState.height"
-                placeholder="Height"
-                type="number"
-                :disabled="formState.autoHeight"
-                class="input"
-              >
-              </a-input>
-            </a-tooltip>
-          </a-col>
-          <a-col>
-            <a-checkbox v-model:checked="formState.autoHeight" size="small">自动</a-checkbox>
-          </a-col>
-        </a-row>
-      </a-form-item>
+              <span>高 (px)</span>
+            </n-tooltip>
+          </div>
+          <div class="col">
+            <n-checkbox v-model:checked="formState.autoHeight" size="small">自动</n-checkbox>
+          </div>
+        </div>
+      </n-form-item>
       <div class="btn-bar">
-        <a-button class="submit-btn" type="primary" @click="handleOk">
-          <SvgIcon class="icon" name="photo" />
-          处理当前
-        </a-button>
-        <a-button class="batch-submit-btn" type="primary" @click="handleBatchOk">
-          <SvgIcon class="icon" name="photos" />
-          批量处理
-        </a-button>
+        <n-button-group>
+          <n-button class="submit-btn" type="default" @click="handleOk">
+            <SvgIcon class="icon" name="photo" />
+            处理当前
+          </n-button>
+          <n-button class="batch-submit-btn" type="default" @click="handleBatchOk">
+            <SvgIcon class="icon" name="photos" />
+            批量处理
+          </n-button>
+        </n-button-group>
       </div>
-    </a-form>
+    </n-form>
   </section>
 </template>
 
 <script lang="ts">
   import { defineComponent, reactive, toRaw, PropType, watch, UnwrapRef } from 'vue'
   import { ipcRenderer } from '../../../utils'
-  import {
-    Form,
-    Button,
-    Input,
-    Select,
-    Switch,
-    Slider,
-    Row,
-    Col,
-    Checkbox,
-    Tooltip
-  } from 'ant-design-vue'
   import SelectDirBtn from '../SelectDirBtn.vue'
   import { FolderOutlined } from '@ant-design/icons-vue'
   import SvgIcon from '../SvgIcon.vue'
+  import {
+    NForm,
+    NFormItem,
+    NSlider,
+    NInputNumber,
+    NSelect,
+    NSwitch,
+    NCheckbox,
+    NTooltip,
+    NButton,
+    NButtonGroup
+  } from 'naive-ui'
 
   export interface OptionsDataType {
     rotate: number
@@ -124,21 +123,20 @@
 
   export default defineComponent({
     components: {
-      AForm: Form,
-      AFormItem: Form.Item,
-      AButton: Button,
-      AInput: Input,
-      ASelect: Select,
-      ASelectOption: Select.Option,
-      ASwitch: Switch,
-      ASlider: Slider,
-      ARow: Row,
-      ACol: Col,
-      ACheckbox: Checkbox,
-      ATooltip: Tooltip,
       SelectDirBtn,
       FolderOutlined,
-      SvgIcon
+      SvgIcon,
+      NForm,
+      NFormItem,
+      NSlider,
+      // NInput,
+      NInputNumber,
+      NSelect,
+      NSwitch,
+      NCheckbox,
+      NTooltip,
+      NButton,
+      NButtonGroup
     },
     props: {
       data: {
@@ -157,6 +155,21 @@
         270: '270°'
       })
 
+      const dpiOptions = reactive([
+        {
+          label: '72',
+          value: 72
+        },
+        {
+          label: '96',
+          value: 96
+        },
+        {
+          label: '300',
+          value: 300
+        }
+      ])
+
       // watch
       watch(
         formState,
@@ -174,7 +187,8 @@
 
       const handleBatchOk = () => {
         ctx.emit('click-batch-ok', toRaw(formState))
-        ipcRenderer.sendSync('run-batch-ok', toRaw(formState))
+        const res = ipcRenderer.sendSync('run-batch-ok', toRaw(formState))
+        console.log(res)
       }
 
       return {
@@ -182,6 +196,7 @@
         wrapperCol: { span: 14 },
         formState,
         marks,
+        dpiOptions,
         handleOk,
         handleBatchOk
       }
@@ -201,6 +216,20 @@
       margin-bottom: 12px;
     }
     .wh-wrapper {
+      :deep(.n-form-item-blank) {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .row {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-bottom: 12px;
+        .col {
+          margin-right: 12px;
+        }
+      }
       .input {
         width: 140px;
       }
@@ -217,7 +246,7 @@
       }
       .icon {
         margin-right: 4px;
-        transform: translateY(2px);
+        transform: translateY(-2px);
       }
     }
   }

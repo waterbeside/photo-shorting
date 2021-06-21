@@ -1,27 +1,32 @@
 <template>
   <section class="photos-container">
-    <a-upload-dragger
-      name="file"
+    <n-upload
       :multiple="true"
-      :show-upload-list="false"
-      :before-upload="beforeUpload"
+      accept="image"
       class="upload-box"
       :class="{ 'have-data': photoList.length > 0 }"
+      :style="{ '--border-radius': 0 }"
+      @change="uploadChange"
     >
-      <div class="upload-tips">
-        <p class="ant-upload-text"> 点击上传或拖动图片到这里 </p>
-      </div>
-      <ul v-if="photoList.length > 0" class="photo-list">
-        <template v-for="item in photoList" :key="item.uid">
-          <photo-item
-            :photo="item"
-            :selected="photoSelected !== null && item.uid === photoSelected.uid"
-            @click-photo="handleClickPicture"
-            @del-photo="handleDelPicture"
-          />
-        </template>
-      </ul>
-    </a-upload-dragger>
+      <n-upload-dragger class="upload-box__inner">
+        <div class="upload-tips">
+          <n-icon v-if="photoList.length === 0" size="48" :depth="3">
+            <archive-icon />
+          </n-icon>
+          <p class="upload-text"> 点击上传或拖动图片到这里 </p>
+        </div>
+        <ul v-if="photoList.length > 0" class="photo-list">
+          <template v-for="item in photoList" :key="item.uid">
+            <photo-item
+              :photo="item"
+              :selected="photoSelected !== null && item.uid === photoSelected.uid"
+              @click-photo="handleClickPicture"
+              @del-photo="handleDelPicture"
+            />
+          </template>
+        </ul>
+      </n-upload-dragger>
+    </n-upload>
   </section>
 </template>
 
@@ -30,14 +35,17 @@
   import { useStore } from 'vuex'
   import { isImageType } from '../../../utils'
   import ipcStore from '../../../utils/ipcStroe'
-  import { Upload } from 'ant-design-vue'
   import PhotoItem from './PhotoItem.vue'
+  import { NUpload, NUploadDragger, NIcon } from 'naive-ui'
 
   export default defineComponent({
     name: 'PhotosContaioner',
     components: {
-      AUploadDragger: Upload.Dragger,
-      PhotoItem
+      // AUploadDragger: Upload.Dragger,
+      PhotoItem,
+      NUpload,
+      NUploadDragger,
+      NIcon
     },
     props: {
       photos: {
@@ -69,20 +77,21 @@
       /**
        * 提交图片
        */
-      const beforeUpload = (file: any, fileList: any[]) => {
+      const uploadChange = (options: any) => {
         let reader = new window.FileReader()
-        if (!isImageType(file)) {
-          return false
+        const { file, fileList } = options
+        if (!isImageType(file.file)) {
+          return
         }
-        reader.readAsDataURL(file)
+        reader.readAsDataURL(file.file)
         console.log('reader', reader)
         reader.onload = function () {
           console.log('reader.result', reader.result) //获取到base64格式图片
           const imageItemData: IPhotoItem = {
             src: reader.result,
-            file,
+            file: file.file,
             name: file.name,
-            uid: file.uid
+            uid: file.id
           }
           photoList.value.push(imageItemData)
           // fileSrc.value = reader.result;
@@ -91,7 +100,7 @@
         }
         console.log('beforeUpload file', file)
         console.log('beforeUpload fileList', fileList)
-        return false
+        return
       }
       const transformFile = (file: any) => {
         console.log('transformFile file', file)
@@ -140,7 +149,7 @@
 
       // return
       return {
-        beforeUpload,
+        uploadChange,
         transformFile,
         handleClickPicture,
         handleDelPicture,
@@ -161,6 +170,20 @@
       flex-grow: 1;
       width: 100%;
       background-color: #444;
+
+      #{&}__inner {
+        flex-grow: 1;
+      }
+
+      :deep(.n-upload__trigger) {
+        display: flex;
+        width: 100%;
+        flex-grow: 1;
+        height: 100%;
+      }
+      :deep(.n-upload-file-list) {
+        display: none;
+      }
 
       &.have-data {
         justify-content: flex-start;
