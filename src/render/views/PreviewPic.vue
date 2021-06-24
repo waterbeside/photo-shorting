@@ -8,7 +8,7 @@
 <script lang="ts">
   import { defineComponent, ref } from 'vue'
   import { useRoute } from 'vue-router'
-  import ipcStore from '../../utils/ipcStroe'
+  import ipcStore from '../../utils/ipcStore'
 
   export default defineComponent({
     setup() {
@@ -18,12 +18,12 @@
       uid.value = route.params.uid
       console.log(route.params)
       console.log(uid.value)
-      ipcStore('photo-map')
+      ipcStore('data:photoMap')
         .get()
-        .then((photoMap) => {
+        .then((photoMap: any) => {
           src.value = photoMap[uid.value]?.src || null
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err)
         })
       return {
