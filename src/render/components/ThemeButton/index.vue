@@ -10,7 +10,7 @@
 <script lang="ts">
   import { defineComponent, computed } from 'vue'
   import { useStore } from 'vuex'
-  import useTheme from '../compositions/useTheme'
+  import useTheme from '../../compositions/useTheme'
   import { NButton, NIcon } from 'naive-ui'
   import { WeatherSunny24Filled, WeatherMoon24Filled } from '@vicons/fluent'
 

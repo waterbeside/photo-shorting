@@ -1,5 +1,5 @@
 <template>
-  <div class="c-processing" :class="[{ running: percent < 100 }, `${themeName}-theme`]">
+  <div class="show-processing" :class="[{ running: percent < 100 }, `${themeName}-theme`]">
     <div class="progress-wrapper">
       <div v-if="status != 'success'" class="dot-wrapper">
         <div class="dot"></div>
@@ -23,9 +23,10 @@
 <script lang="ts">
   import { defineComponent, computed } from 'vue'
   import { NProgress } from 'naive-ui'
-  import useTheme from '../compositions/useTheme'
+  import useTheme from '../../compositions/useTheme'
 
   export default defineComponent({
+    name: 'ShowProcessing',
     components: {
       NProgress
     },
@@ -69,18 +70,18 @@
 <style lang="scss" scoped>
   @keyframes drop {
     0% {
-      transform: scale(1) translateX(-400%);
-      opacity: 0;
+      transform: scale(1) translateX(-800%);
+      opacity: 0.7;
     }
     50% {
-      transform: scale(0.6) translateX(-20%);
+      transform: scale(0.6) translateX(-10%);
       opacity: 1;
     }
     100% {
       transform: scale(0.1) translateX(0px);
     }
   }
-  .c-processing {
+  .show-processing {
     position: absolute;
     left: 0;
     right: 0;
@@ -100,21 +101,27 @@
     }
     .dot-wrapper {
       $wrapperWidth: 100px;
-      $dotColor: hsl(190, 87%, 50%);
+      // $dotColor: hsl(190, 87%, 50%);
+      $dotColor: #54aee6;
       position: relative;
-      margin-right: -14px;
+      margin-right: -40px;
+      padding-right: 10px;
       width: $wrapperWidth + 12px;
-      height: 30px;
+      height: 50px;
       display: flex;
       align-items: center;
       justify-content: flex-end;
       flex-direction: row;
-      filter: contrast(20) invert(100) hue-rotate(195deg);
-      background: #000;
+      // filter: contrast(20) invert(100) hue-rotate(195deg);
+      filter: contrast(20) saturate(26%) hue-rotate(30deg);
+      // filter: contrast(40) hue-rotate(20deg) saturate(50%);
+      // background: #000;
+      background: #fff;
+      overflow: hidden;
       .dot {
-        filter: blur(3px);
-        width: 16px;
-        height: 16px;
+        filter: blur(10px);
+        width: 50px;
+        height: 50px;
         background: $dotColor;
         position: absolute;
         opacity: 0;
@@ -122,15 +129,15 @@
       }
       .collection {
         border-radius: 100%;
-        filter: blur(3px);
+        filter: blur(10px);
         background: $dotColor;
-        width: 16px;
-        height: 16px;
+        width: 40px;
+        height: 40px;
       }
     }
     &.running {
       .dot {
-        animation: 3.5s drop linear infinite;
+        animation: 5s drop linear infinite;
       }
       .dot:nth-child(2) {
         animation-delay: 0.7s;

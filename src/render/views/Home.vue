@@ -16,8 +16,8 @@
 <script lang="ts">
   import { defineComponent, ref, UnwrapRef, reactive } from 'vue'
   import PhotosContainer from '../components/PhotosContainer/index.vue'
-  import ShowProcessing from '../components/ShowProcessing.vue'
-  import ThemeButton from '../components/ThemeButton.vue'
+  import ShowProcessing from '../components/ShowProcessing/index.vue'
+  import ThemeButton from '../components/ThemeButton/index.vue'
   import OptionsPanel, { OptionsDataType } from '../components/OptionsPanel/index.vue'
   import RightPhotoBox from '../components/RightPhotoBox/index.vue'
   import { ipcRenderer } from '../../utils'

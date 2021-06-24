@@ -120,8 +120,8 @@
 <script lang="ts">
   import { defineComponent, reactive, toRaw, PropType, watch, UnwrapRef } from 'vue'
   import { ipcRenderer } from '../../../utils'
-  import SelectDirBtn from '../SelectDirBtn.vue'
-  import SvgIcon from '../SvgIcon.vue'
+  import SelectDirBtn from '../SelectDirBtn/index.vue'
+  import SvgIcon from '../SvgIcon/index.vue'
   import { Folder48Regular } from '@vicons/fluent'
   import useTheme from '../../compositions/useTheme'
   import {
@@ -151,6 +151,7 @@
   }
 
   export default defineComponent({
+    name: 'OptionsPanel',
     components: {
       Folder48Regular,
       SelectDirBtn,

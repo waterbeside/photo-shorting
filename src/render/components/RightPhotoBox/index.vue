@@ -16,6 +16,7 @@
   import useTheme from '../../compositions/useTheme'
 
   export default defineComponent({
+    name: 'RightPhotoBox',
     props: {
       photo: {
         type: Object as PropType<IPhotoItem>,

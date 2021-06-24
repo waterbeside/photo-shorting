@@ -18,7 +18,7 @@
 <script lang="ts">
   import { defineComponent, PropType } from 'vue'
   import useTheme from '../../compositions/useTheme'
-  import SvgIcon from '../SvgIcon.vue'
+  import SvgIcon from '../SvgIcon/index.vue'
 
   export default defineComponent({
     name: 'PhotoItem',

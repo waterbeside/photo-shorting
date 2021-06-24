@@ -9,7 +9,7 @@
 
 <script lang="ts">
   import { ref, defineComponent, watch, computed } from 'vue'
-  import { ipcRenderer } from '../../utils'
+  import { ipcRenderer } from '../../../utils'
   import { Folder48Regular } from '@vicons/fluent'
   import { NIcon } from 'naive-ui'
 
