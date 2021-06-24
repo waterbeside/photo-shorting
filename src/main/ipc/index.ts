@@ -37,4 +37,30 @@ export function setIpcs() {
     console.log('run-batch-ok args', args)
     e.returnValue = args
   })
+
+  // 关闭app
+  ipcMain.on('close-app', () => {
+    if (wins.mainWin) {
+      wins.mainWin.close()
+    }
+  })
+
+  // 最少化app
+  ipcMain.on('min-app', () => {
+    if (wins.mainWin) {
+      wins.mainWin.minimize()
+    }
+  })
+
+  // 最大化app
+  ipcMain.on('max', () => {
+    if (!wins.mainWin) {
+      return
+    }
+    if (wins.mainWin.isMaximized()) {
+      wins.mainWin.unmaximize()
+    } else {
+      wins.mainWin.maximize()
+    }
+  })
 }
