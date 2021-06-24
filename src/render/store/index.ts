@@ -1,19 +1,25 @@
 import { createStore } from 'vuex'
 
+type ThemeType = 'light' | 'dark'
 interface stateType {
   photoSelected: IPhotoItem | null
+  theme: ThemeType
   [propName: string]: any
 }
 
 function state(): stateType {
   return {
-    photoSelected: null
+    photoSelected: null,
+    theme: 'dark'
   }
 }
 
 const mutations = {
-  SET_PHOTO_SELECTED: (state: any, val: IPhotoItem | null) => {
+  SET_PHOTO_SELECTED: (state: stateType, val: IPhotoItem | null) => {
     state.photoSelected = val
+  },
+  TOGGLE_THEME: (state: stateType) => {
+    state.theme = state.theme === 'light' ? 'dark' : 'light'
   }
 }
 

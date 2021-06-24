@@ -1,5 +1,5 @@
 <template>
-  <section ref="picWrapper" class="preview-pic-wrapper">
+  <section ref="picWrapper" class="right-photo-box" :class="[`${themeName}-theme`]">
     <img
       v-if="photo && typeof photo.src === 'string'"
       ref="pic"
@@ -12,7 +12,8 @@
 </template>
 <script lang="ts">
   import { defineComponent, PropType, watch, onMounted, ref, nextTick } from 'vue'
-  const ipcRenderer: any = typeof require === 'function' ? require('electron').ipcRenderer : null
+  import { ipcRenderer } from '../../../utils'
+  import useTheme from '../../compositions/useTheme'
 
   export default defineComponent({
     props: {
@@ -27,6 +28,7 @@
     },
     emits: ['click'],
     setup(props, ctx) {
+      const { themeName } = useTheme()
       const pic = ref<HTMLElement>()
       const picWrapper = ref<HTMLElement>()
       const handleClickPreview = () => {
@@ -79,6 +81,7 @@
 
       return {
         handleClickPreview,
+        themeName,
         pic,
         picWrapper
       }
@@ -87,8 +90,8 @@
 </script>
 
 <style lang="scss" scoped>
-  .preview-pic-wrapper {
-    height: 250px;
+  .right-photo-box {
+    height: 240px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -96,6 +99,9 @@
     // box-shadow: inset 0 -10px 20px rgba(0,0,0,0.1);
     background-image: repeating-linear-gradient(45deg, #eee 0, #eee 1px, #ddd 0, #ddd 5px);
     overflow: hidden;
+    &.dark-theme {
+      background-image: repeating-linear-gradient(45deg, #444 0, #222 1px, #222 0, #222 5px);
+    }
   }
   .preview-pic {
     max-width: 100%;

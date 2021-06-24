@@ -5,7 +5,7 @@
     class="photos-container"
     @click-photo="handleClickPhoto"
   />
-  <section class="tools-container">
+  <section class="tools-container" :class="[`${themeName}-theme`]">
     <RightPhotoBox :photo="photoSelected" :rotate="formState.rotate" />
     <OptionsPanel v-model:data="formState" />
   </section>
@@ -19,6 +19,7 @@
   import OptionsPanel, { OptionsDataType } from '../components/OptionsPanel/index.vue'
   import RightPhotoBox from '../components/RightPhotoBox/index.vue'
   import { ipcRenderer } from '../../utils'
+  import useTheme from '../compositions/useTheme'
 
   export default defineComponent({
     name: 'Home',
@@ -30,10 +31,11 @@
     },
     setup() {
       // data
-      let fileList = reactive([])
-      let photoList = reactive<IPhotoItem[]>([])
-      let photoSelected = ref<IPhotoItem>()
-      let isProcess = ref<Boolean>(false)
+      const { themeName } = useTheme()
+      const fileList = reactive([])
+      const photoList = reactive<IPhotoItem[]>([])
+      const photoSelected = ref<IPhotoItem>()
+      const isProcess = ref<Boolean>(false)
       const formState: UnwrapRef<OptionsDataType> = reactive({
         rotate: 0,
         dirPath: '',
@@ -76,18 +78,25 @@
 
       // return
       return {
-        // beforeUpload,
-        transformFile,
-        handleClickPhoto,
-        // handleDelPicture,
-        handleClickPreview,
+        themeName,
         fileList,
         photoList,
         photoSelected,
         formState,
-        isProcess
+        isProcess,
+        // beforeUpload,
+        transformFile,
+        handleClickPhoto,
+        // handleDelPicture,
+        handleClickPreview
       }
     }
   })
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .tools-container {
+    &.dark-theme {
+      background: #333;
+    }
+  }
+</style>

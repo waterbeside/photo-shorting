@@ -1,5 +1,5 @@
 <template>
-  <section class="photos-container">
+  <section class="photos-container" :class="`${themeName}-theme`">
     <n-upload
       :multiple="true"
       accept="image"
@@ -37,6 +37,7 @@
   import ipcStore from '../../../utils/ipcStroe'
   import PhotoItem from './PhotoItem.vue'
   import { NUpload, NUploadDragger, NIcon } from 'naive-ui'
+  import useTheme from '../../compositions/useTheme'
 
   export default defineComponent({
     name: 'PhotosContaioner',
@@ -63,6 +64,7 @@
     setup(props, ctx) {
       // data
       const store = useStore()
+      const { themeName } = useTheme()
       let fileList = ref([])
       let photoList = ref<IPhotoItem[]>(props.photos)
       let photoSelected = ref<IPhotoItem | null>(props.selected)
@@ -153,6 +155,7 @@
         transformFile,
         handleClickPicture,
         handleDelPicture,
+        themeName,
         fileList,
         photoList,
         photoSelected
@@ -164,12 +167,12 @@
   @import '../../assets/style/_var.scss';
   .photos-container {
     flex-direction: column;
+
     .upload-box {
       // display: block;
       display: flex;
       flex-grow: 1;
       width: 100%;
-      background-color: #444;
 
       #{&}__inner {
         flex-grow: 1;
@@ -192,17 +195,8 @@
           flex-direction: column;
         }
       }
-      :deep(.ant-upload.ant-upload-drag) {
-        background-color: #444;
-        border-radius: 0;
-        border-color: #555;
-        border: none;
-        height: auto;
-      }
-      :deep(p.ant-upload-text) {
-        color: #bbb;
-      }
     }
+
     .upload-tips {
       text-align: center;
     }
@@ -213,6 +207,11 @@
       list-style: none;
       padding: 0;
       margin: 0;
+    }
+
+    &.dark-theme {
+      background-color: #333;
+      color: #dce0e2;
     }
   }
 </style>

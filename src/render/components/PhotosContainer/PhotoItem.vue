@@ -2,11 +2,11 @@
   <li
     v-if="typeof photo.src === 'string'"
     class="photo-item"
-    :class="{ selected: selected }"
+    :class="[{ selected: selected }, `${themeName}-theme`]"
     @click.stop="handleClickPicture"
   >
     <span class="close-btn" @click.stop="handleDelPicture">
-      <CloseCircleFilled />
+      <Block20Filled />
     </span>
     <img :src="photo.src" class="photo" />
   </li>
@@ -14,12 +14,13 @@
 
 <script lang="ts">
   import { defineComponent, PropType } from 'vue'
-  import { CloseCircleFilled } from '@ant-design/icons-vue'
+  import useTheme from '../../compositions/useTheme'
+  import { Block20Filled } from '@vicons/fluent'
 
   export default defineComponent({
     name: 'PhotoItem',
     components: {
-      CloseCircleFilled
+      Block20Filled
     },
     props: {
       photo: {
@@ -33,6 +34,7 @@
     },
     emits: ['click-photo', 'del-photo'],
     setup(props, ctx) {
+      const { themeName } = useTheme()
       const handleClickPicture = () => {
         ctx.emit('click-photo', props.photo)
       }
@@ -42,7 +44,8 @@
 
       return {
         handleClickPicture,
-        handleDelPicture
+        handleDelPicture,
+        themeName
       }
     }
   })
@@ -74,6 +77,14 @@
       border-color: $primary-color;
       .close-btn {
         display: inline-block;
+      }
+    }
+    &.dark-theme {
+      background: #333;
+      border-color: #303030;
+      &.selected {
+        background-image: repeating-linear-gradient(45deg, #444 0, #222 1px, #222 0, #222 5px);
+        border-color: #333;
       }
     }
   }
