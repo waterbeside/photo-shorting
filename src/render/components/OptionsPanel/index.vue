@@ -22,7 +22,7 @@
       <n-form-item path="dirPath" label="保存路径" :show-require-mark="false">
         <select-dir-btn v-model:value="formState.dirPath">
           <span>{{ formState.dirPath ? formState.dirPath : '选择文件夹' }}</span>
-          <n-icon>
+          <n-icon class="select-dir-btn__icon">
             <folder48-regular />
           </n-icon>
         </select-dir-btn>
@@ -98,7 +98,7 @@
             :bordered="true"
             @click="handleOk"
           >
-            <SvgIcon class="icon" name="photo" />
+            <svg-icon class="icon" name="photo" />
             处理当前
           </n-button>
           <n-button
@@ -108,7 +108,7 @@
             :bordered="true"
             @click="handleBatchOk"
           >
-            <SvgIcon class="icon" name="photos" />
+            <svg-icon class="icon" name="photos" />
             批量处理
           </n-button>
         </n-button-group>
@@ -292,7 +292,6 @@
       }
       .icon {
         margin-right: 4px;
-        transform: translateY(-2px);
       }
     }
     &.dark-theme {

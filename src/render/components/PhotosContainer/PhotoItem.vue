@@ -6,7 +6,10 @@
     @click.stop="handleClickPicture"
   >
     <span class="close-btn" @click.stop="handleDelPicture">
-      <Block20Filled />
+      <svg-icon class="icon" name="close" />
+      <n-icon>
+        <block20-filled />
+      </n-icon>
     </span>
     <img :src="photo.src" class="photo" />
   </li>
@@ -15,12 +18,12 @@
 <script lang="ts">
   import { defineComponent, PropType } from 'vue'
   import useTheme from '../../compositions/useTheme'
-  import { Block20Filled } from '@vicons/fluent'
+  import SvgIcon from '../SvgIcon.vue'
 
   export default defineComponent({
     name: 'PhotoItem',
     components: {
-      Block20Filled
+      SvgIcon
     },
     props: {
       photo: {
@@ -63,11 +66,19 @@
     box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.2), -10px -10px 25px rgba(255, 255, 255, 0.1);
     position: relative;
     .close-btn {
-      display: none;
+      display: None;
       position: absolute;
-      font-size: 18px;
+      font-size: 14px;
       right: -6px;
       top: -8px;
+      border-radius: 50%;
+      background: #444;
+      width: 20px;
+      height: 20px;
+      color: #ddd;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
     }
     &.selected {
       background-image: repeating-linear-gradient(45deg, #eee 0, #eee 1px, #ddd 0, #ddd 5px);
@@ -76,7 +87,7 @@
     &:hover {
       border-color: $primary-color;
       .close-btn {
-        display: inline-block;
+        display: inline-flex;
       }
     }
     &.dark-theme {
@@ -85,6 +96,10 @@
       &.selected {
         background-image: repeating-linear-gradient(45deg, #444 0, #222 1px, #222 0, #222 5px);
         border-color: #333;
+      }
+      .close-btn {
+        background: #ccc;
+        color: #333;
       }
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="select-dir-btn" @click="selectDir">
-    <n-icon>
-      <folder48-regular v-if="isNoSlot" />
+    <n-icon v-if="isNoSlot" class="select-dir-btn__icon">
+      <folder48-regular />
     </n-icon>
     <slot></slot>
   </div>
@@ -68,5 +68,13 @@
     display: inline-block;
     cursor: pointer;
     color: #888;
+    #{&}__icon {
+      transform: translateY(2px);
+      margin-right: 2px;
+    }
+    :deep(#{&}__icon) {
+      transform: translateY(2px);
+      margin: 0 2px;
+    }
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider class="all" :theme="theme">
+  <n-config-provider class="all" :class="[`${themeName}-theme`]" :theme="theme">
     <router-view />
   </n-config-provider>
 </template>
@@ -15,9 +15,10 @@
       NConfigProvider
     },
     setup() {
-      const { theme } = useTheme()
+      const { theme, themeName } = useTheme()
       return {
-        theme
+        theme,
+        themeName
       }
     }
   })

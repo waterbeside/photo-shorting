@@ -11,7 +11,7 @@
       <n-upload-dragger class="upload-box__inner">
         <div class="upload-tips">
           <n-icon v-if="photoList.length === 0" size="48" :depth="3">
-            <archive-icon />
+            <image-add24-regular />
           </n-icon>
           <p class="upload-text"> 点击上传或拖动图片到这里 </p>
         </div>
@@ -38,15 +38,16 @@
   import PhotoItem from './PhotoItem.vue'
   import { NUpload, NUploadDragger, NIcon } from 'naive-ui'
   import useTheme from '../../compositions/useTheme'
+  import { ImageAdd24Regular } from '@vicons/fluent'
 
   export default defineComponent({
     name: 'PhotosContaioner',
     components: {
-      // AUploadDragger: Upload.Dragger,
       PhotoItem,
       NUpload,
       NUploadDragger,
-      NIcon
+      NIcon,
+      ImageAdd24Regular
     },
     props: {
       photos: {

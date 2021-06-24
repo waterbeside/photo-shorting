@@ -46,6 +46,5 @@
   .app-svg-icon {
     display: inline-block;
     fill: currentColor;
-    margin-top: 2px;
   }
 </style>
