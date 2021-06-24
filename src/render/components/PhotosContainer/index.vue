@@ -31,10 +31,9 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, watch, PropType } from 'vue'
+  import { defineComponent, computed } from 'vue'
   import { useStore } from 'vuex'
   import { isImageType } from '../../../utils'
-  import ipcStore from '../../../utils/ipcStroe'
   import PhotoItem from './PhotoItem.vue'
   import { NUpload, NUploadDragger, NIcon } from 'naive-ui'
   import useTheme from '../../compositions/useTheme'
@@ -49,33 +48,20 @@
       NIcon,
       ImageAdd24Regular
     },
-    props: {
-      photos: {
-        type: Array as PropType<IPhotoItem[]>,
-        default: () => []
-      },
-      selected: {
-        type: Object as PropType<IPhotoItem>,
-        default: () => {
-          return null
-        }
-      }
-    },
-    emits: ['update:photos', 'update:selected', 'click-photo', 'del-photo'],
+    emits: ['click-photo', 'del-photo'],
     setup(props, ctx) {
       // data
       const store = useStore()
       const { themeName } = useTheme()
-      let fileList = ref([])
-      let photoList = ref<IPhotoItem[]>(props.photos)
-      let photoSelected = ref<IPhotoItem | null>(props.selected)
-      // watch
-      watch(photoList, (val: any) => {
-        ctx.emit('update:photos', val)
+
+      // computed
+      const photoList = computed(() => {
+        return store.state.photoList
       })
-      watch(photoSelected, (val: any) => {
-        ctx.emit('update:selected', val)
+      const photoSelected = computed(() => {
+        return store.state.photoSelected
       })
+
       // methods
       /**
        * 提交图片
@@ -96,10 +82,7 @@
             name: file.name,
             uid: file.id
           }
-          photoList.value.push(imageItemData)
-          // fileSrc.value = reader.result;
-          console.log('photoList', photoList)
-          ipcSetPhotoListMap()
+          store.dispatch('addPhotoItem', imageItemData)
         }
         console.log('beforeUpload file', file)
         console.log('beforeUpload fileList', fileList)
@@ -108,45 +91,21 @@
       const transformFile = (file: any) => {
         console.log('transformFile file', file)
       }
-      const ipcSetPhotoListMap = () => {
-        const photoMap: any = {}
-        for (const item of photoList.value) {
-          photoMap[item.uid] = {
-            uid: item.uid,
-            name: item.name,
-            src: item.src
-          }
-        }
-        console.log('ipcSetPhotoListMap', photoMap)
-        ipcStore('photo-map').set(photoMap)
-      }
+
       /**
        * 点击图片列表的某张图片时
        */
       const handleClickPicture = (photoItem: IPhotoItem) => {
-        photoSelected.value = photoItem
-        store.commit('SET_PHOTO_SELECTED', photoItem)
+        store.dispatch('selectPhotoItem', photoItem)
         ctx.emit('click-photo', photoItem)
         return false
       }
       /**
        * 点击删除单张图片
        */
-      const handleDelPicture = (photoItemUid: string) => {
-        const newPhotoList: IPhotoItem[] = []
-        // const newFileList: PhotoItem[] = [];
-        let delItem: IPhotoItem | null = null
-        for (const item of photoList.value) {
-          if (item.uid === photoItemUid) {
-            delItem = item
-            continue
-          }
-          newPhotoList.push(item)
-        }
-        photoList.value = newPhotoList
-        ipcSetPhotoListMap()
-        ctx.emit('del-photo', photoItemUid, delItem)
-        console.log('handleDelPicture', photoItemUid)
+      const handleDelPicture = (photoItem: IPhotoItem) => {
+        store.dispatch('delPhotoItem', photoItem)
+        ctx.emit('del-photo', photoItem, photoItem.uid)
         return false
       }
 
@@ -157,7 +116,6 @@
         handleClickPicture,
         handleDelPicture,
         themeName,
-        fileList,
         photoList,
         photoSelected
       }

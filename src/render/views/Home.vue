@@ -1,13 +1,8 @@
 <template>
   <theme-button class="theme-button"></theme-button>
-  <photos-container
-    v-model:photos="photoList"
-    v-model:selected="photoSelected"
-    class="photos-container"
-    @click-photo="handleClickPhoto"
-  />
+  <photos-container class="photos-container" @click-photo="handleClickPhoto" />
   <section class="tools-container" :class="[`${themeName}-theme`]">
-    <right-photo-box :photo="photoSelected" :rotate="formState.rotate" />
+    <right-photo-box :rotate="formState.rotate" />
     <options-panel v-model:data="formState" />
   </section>
   <show-processing v-if="isProcess" />
@@ -35,9 +30,6 @@
     setup() {
       // data
       const { themeName } = useTheme()
-      const fileList = reactive([])
-      const photoList = reactive<IPhotoItem[]>([])
-      const photoSelected = ref<IPhotoItem>()
       const isProcess = ref<Boolean>(false)
       const formState: UnwrapRef<OptionsDataType> = reactive({
         rotate: 0,
@@ -62,14 +54,6 @@
         return false
       }
 
-      const handleClickPreview = () => {
-        if (ipcRenderer) {
-          const uid = photoSelected.value?.uid
-          console.log('on click preview')
-          ipcRenderer.send('open-preview', { uid })
-        }
-      }
-
       ipcRenderer.on('change-process-status', (event: any, args: any) => {
         if (args.status) {
           isProcess.value = true
@@ -82,16 +66,13 @@
       // return
       return {
         themeName,
-        fileList,
-        photoList,
-        photoSelected,
         formState,
         isProcess,
         // beforeUpload,
         transformFile,
-        handleClickPhoto,
+        handleClickPhoto
         // handleDelPicture,
-        handleClickPreview
+        // handleClickPreview
       }
     }
   })

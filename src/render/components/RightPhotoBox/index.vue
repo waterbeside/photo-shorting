@@ -1,27 +1,24 @@
 <template>
   <section ref="picWrapper" class="right-photo-box" :class="[`${themeName}-theme`]">
     <img
-      v-if="photo && typeof photo.src === 'string'"
+      v-if="photoSelected && typeof photoSelected.src === 'string'"
       ref="pic"
       class="preview-pic"
-      :src="photo.src"
+      :src="photoSelected.src"
       :style="{ transform: `rotate(${rotate}deg)` }"
       @click="handleClickPreview"
     />
   </section>
 </template>
 <script lang="ts">
-  import { defineComponent, PropType, watch, onMounted, ref, nextTick } from 'vue'
+  import { defineComponent, watch, onMounted, ref, nextTick, computed } from 'vue'
+  import { useStore } from 'vuex'
   import { ipcRenderer } from '../../../utils'
   import useTheme from '../../compositions/useTheme'
 
   export default defineComponent({
     name: 'RightPhotoBox',
     props: {
-      photo: {
-        type: Object as PropType<IPhotoItem>,
-        default: () => null
-      },
       rotate: {
         type: Number,
         default: 0
@@ -29,15 +26,19 @@
     },
     emits: ['click'],
     setup(props, ctx) {
+      const store = useStore()
       const { themeName } = useTheme()
       const pic = ref<HTMLElement>()
       const picWrapper = ref<HTMLElement>()
+      const photoSelected = computed<IPhotoItem>(() => {
+        return store.state.photoSelected
+      })
       const handleClickPreview = () => {
         if (ipcRenderer) {
-          const uid = props.photo?.uid
+          const uid = photoSelected.value?.uid
           console.log('on click preview')
           ipcRenderer.send('open-preview', { uid })
-          ctx.emit('click', props.photo)
+          ctx.emit('click', photoSelected.value)
         }
       }
 
@@ -83,6 +84,7 @@
       return {
         handleClickPreview,
         themeName,
+        photoSelected,
         pic,
         picWrapper
       }
