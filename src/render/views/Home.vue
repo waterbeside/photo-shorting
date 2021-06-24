@@ -1,21 +1,23 @@
 <template>
-  <PhotosContainer
+  <theme-button class="theme-button"></theme-button>
+  <photos-container
     v-model:photos="photoList"
     v-model:selected="photoSelected"
     class="photos-container"
     @click-photo="handleClickPhoto"
   />
   <section class="tools-container" :class="[`${themeName}-theme`]">
-    <RightPhotoBox :photo="photoSelected" :rotate="formState.rotate" />
-    <OptionsPanel v-model:data="formState" />
+    <right-photo-box :photo="photoSelected" :rotate="formState.rotate" />
+    <options-panel v-model:data="formState" />
   </section>
-  <Processing v-if="isProcess" />
+  <show-processing v-if="isProcess" />
 </template>
 
 <script lang="ts">
   import { defineComponent, ref, UnwrapRef, reactive } from 'vue'
   import PhotosContainer from '../components/PhotosContainer/index.vue'
-  import Processing from '../components/Processing.vue'
+  import ShowProcessing from '../components/ShowProcessing.vue'
+  import ThemeButton from '../components/ThemeButton.vue'
   import OptionsPanel, { OptionsDataType } from '../components/OptionsPanel/index.vue'
   import RightPhotoBox from '../components/RightPhotoBox/index.vue'
   import { ipcRenderer } from '../../utils'
@@ -27,7 +29,8 @@
       PhotosContainer,
       OptionsPanel,
       RightPhotoBox,
-      Processing
+      ShowProcessing,
+      ThemeButton
     },
     setup() {
       // data
@@ -94,6 +97,11 @@
   })
 </script>
 <style lang="scss" scoped>
+  .theme-button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+  }
   .tools-container {
     &.dark-theme {
       background: #333;
