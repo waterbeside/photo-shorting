@@ -29,7 +29,7 @@
         return themeName.value === 'dark' ? '#aaa' : '#444'
       })
       const handleClickBtn = () => {
-        store.commit('TOGGLE_THEME')
+        store.dispatch('toggleTheme')
       }
       return {
         themeName,
