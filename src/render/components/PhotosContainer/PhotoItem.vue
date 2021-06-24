@@ -42,7 +42,7 @@
         ctx.emit('click-photo', props.photo)
       }
       const handleDelPicture = () => {
-        ctx.emit('del-photo', props.photo.uid)
+        ctx.emit('del-photo', props.photo, props.photo.uid)
       }
 
       return {
