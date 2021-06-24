@@ -1,6 +1,8 @@
 <template>
   <div class="select-dir-btn" @click="selectDir">
-    <Folder48Regular v-if="isNoSlot" />
+    <n-icon>
+      <folder48-regular v-if="isNoSlot" />
+    </n-icon>
     <slot></slot>
   </div>
 </template>
@@ -9,10 +11,12 @@
   import { ref, defineComponent, watch, computed } from 'vue'
   import { ipcRenderer } from '../../utils'
   import { Folder48Regular } from '@vicons/fluent'
+  import { NIcon } from 'naive-ui'
 
   export default defineComponent({
     name: 'SelectDirBtn',
     components: {
+      NIcon,
       Folder48Regular
     },
     props: {
